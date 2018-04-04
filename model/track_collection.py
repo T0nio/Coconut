@@ -1,4 +1,5 @@
 import json
+from model.track import Track
 
 
 class TrackCollection(object):
@@ -19,6 +20,12 @@ class TrackCollection(object):
     def __len__(self):
         return len(self.__collection)
 
+    def __repr__(self):
+        return self.__collection.__repr__
+
+    def __str__(self):
+        return str(self.__collection)
+
     def save(self, filepath):
         with open(filepath, 'w') as collection_file:
             for value in self.__collection.values():
@@ -28,4 +35,8 @@ class TrackCollection(object):
 
     def load(self, filepath):
         with open(filepath, 'r') as collection_file:
-            self.__collection = json.load(collection_file)
+            line = collection_file.readline()
+            while line != '':  # EOF
+                track = Track(json=line)
+                self[track.id] = track
+                line = collection_file.readline()
