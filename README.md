@@ -22,3 +22,11 @@ The metadata of the collections is then exported to the file `data/track_collect
 ```
 python main.py
 ```
+
+## Todo
+- [x] Ecrire un scrapper de biblio musicales
+- [ ] Concaténer les deux  BDD de musiques pour avoir la base totale, séparer enX users pour en générer plus. A terme, voir si on a pas d'autre moyen de récupérer des datas (genre spotify)
+- [ ] Construire la matrice Musique / Users, on met rating_score dedans
+- [ ] Faire des mesures de similarité entre users (nouvealle matrice)
+- [ ] Faire une recco à partir de la mesure de similarité
+- [ ] Remplacer la matrice de recco par une autre technique (à trouver)
