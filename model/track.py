@@ -48,3 +48,31 @@ class Track(object):
     @property
     def id(self):
         return self.__id
+
+    @property
+    def title(self):
+        return self.__title
+
+    @property
+    def playcount(self):
+        return self.__playcount
+
+    @property
+    def rating_score(self):
+        return self.__rating_score
+
+    @property
+    def artist(self):
+        return self.__artist
+
+    @property
+    def album(self):
+        return self.__album
+
+    @property
+    def genre(self):
+        return self.__genre
+
+    @property
+    def year(self):
+        return self.__year
