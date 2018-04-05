@@ -1,4 +1,5 @@
-import json
+import pandas as pd
+import numpy as np
 from model.track import Track
 
 
@@ -40,3 +41,14 @@ class TrackCollection(object):
                 track = Track(json=line)
                 self[track.id] = track
                 line = collection_file.readline()
+
+    def to_dataframe(self):
+        columns = np.array(['id', 'title', 'rating_score', 'playcount',
+                            'artist', 'album', 'genre', 'year'])
+        df = np.empty((0, 8))
+        for item in self.__collection.values():
+            row = np.array([[item.id, item.title, item.rating_score,
+                             item.playcount, item.artist, item.album,
+                             item.genre, item.year]])
+            df = np.append(df, row, axis=0)
+        return pd.DataFrame(df, columns=columns)
