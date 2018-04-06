@@ -5,6 +5,7 @@
 import numpy as np
 import pandas as pd
 import os
+import math
 from model.track_collection import TrackCollection
 from utils.collection_splitter import splitter
 from agent.server import Server
@@ -13,14 +14,15 @@ from agent.user import User
 
 ### Loading the tracks data; and splitting them into number_of_users collections
 number_of_users = 12
+n = math.nan
 glob_df = pd.DataFrame(np.array([
-		[1, 0, 3, 0, 0, 5, 0, 0, 5, 0, 4, 0],
-		[0, 0, 5, 4, 0, 0, 4, 0, 0, 2, 1, 3],
-		[2, 4, 0, 1, 2, 0, 3, 0, 4, 3, 5, 0],
-		[0, 2, 4, 0, 5, 0, 0, 4, 0, 0, 2, 0],
-		[0, 0, 4, 3, 4, 2, 0, 0, 0, 0, 2, 5],
-		[1, 0, 3, 0, 3, 0, 0, 2, 0, 0, 4, 0],
-		
+		[1, n, 3, n, n, 5, n, n, 5, n, 4, n],
+		[n, n, 5, 4, n, n, 4, n, n, 2, 1, 3],
+		[2, 4, n, 1, 2, n, 3, n, 4, 3, 5, n],
+		[n, 2, 4, n, 5, n, n, 4, n, n, 2, n],
+		[n, n, 4, 3, 4, 2, n, n, n, n, 2, 5],
+		[1, n, 3, n, 3, n, n, 2, n, n, 4, n],
+
 ]), columns=['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8', 'user9', 'user10', 'user11', 'user12'], dtype='float')
 
 
@@ -38,7 +40,7 @@ i = 0
 for df in user_dfs:
 	users.append(User(i, df))
 	i += 1
-	
+
 ### Generating the users
 for user in users:
 	if(user.id < number_of_users-1):

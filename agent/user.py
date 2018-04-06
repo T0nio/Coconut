@@ -1,7 +1,7 @@
 import random
 import pandas as pd
 import numpy as np
-import math 
+import math
 
 class User(object):
     def __init__(self, id=None, df=None, nextNode=None):
@@ -13,17 +13,17 @@ class User(object):
 
     def __repr__(self):
         return "User Object, ID: {}\n".format(self.__id)
-        
-    
+
+
     def compute_average(self, track_id):
         """ Compute the average rating score for a given track
-                It's working with the user network. 
+                It's working with the user network.
                 Generating a huge number, then adding its own rating (if has any), and then give it to the next node
                 Each node will add its own rating (if has any), and then returning to the first node that will compute the average
-        
+
         Arguments:
             track_id {int} -- The id of the track for which we need to work
-        
+
         Returns:
             float -- The average rating of the track
         """
@@ -37,25 +37,25 @@ class User(object):
             'n': 0 if math.isnan(score) else 1,
             'i': track_id
         })
-        if(r[1] == 0): 
+        if(r[1] == 0):
             return 0
         else:
             return float(r[0] - init_val) / r[1]
 
     def compute_norma(self, track_id):
         """ Compute the norma of a given track
-                It's working with the user network. 
+                It's working with the user network.
                 Generating a huge number, then adding its own square rating (if has any), and then give it to the next node
                 Each node will add its own square rating (if has any), and then returning to the first node that will compute the sqrt
-        
+
         Arguments:
             track_id {int} -- The id of the track for which we need to work
-        
+
         Returns:
             float -- The norma of the track
         """
 
-        
+
         init_val = random.randint(50000, 100000)
         track = self.__normalized_vector.iloc[track_id]
         r = self.__nextNode.executeSum('norma', {
@@ -67,14 +67,14 @@ class User(object):
 
     def compute_scalar(self, i, j):
         """ Compute the scalar product between two tracks
-                It's working with the user network. 
+                It's working with the user network.
                 Generating a huge number, then adding its own track multiplication (if has any), and then give it to the next node
                 Each node will add its own track multiplication (if has any), and then returning to the first node that will compute the sqrt
-        
+
         Arguments:
             i {int} -- The first track
             j {int} -- The second track
-        
+
         Returns:
             float -- The scalar product between the two tracks
         """
@@ -82,23 +82,24 @@ class User(object):
         init_val = random.randint(5000, 10000)
         scoreI = float(self.__normalized_vector.iloc[i])
         scoreJ = float(self.__normalized_vector.iloc[j])
+        add = 0 if math.isnan(scoreI) or math.isnan(scoreJ) else scoreI * scoreJ
         r = self.__nextNode.executeSum('scalar', {
             'origin': self.id,
-            'value': init_val + scoreI * scoreJ,
+            'value': init_val + add,
             'i': i,
             'j': j
         })
-        return r-init_val
+        return r - init_val
 
     def executeSum(self, sum_type, params=None):
-        """ Compute sum with the network of nodes. 
-        
+        """ Compute sum with the network of nodes.
+
         Arguments:
             sum_type {string} -- The type of sum. Used as a switch( is that linear, square, ..)
-        
+
         Keyword Arguments:
             params {dict} -- Will depend of the sum_type. But basically the infos needed to compute the sum (default: {None})
-        
+
         Returns:
             tuple -- Will depends of the sum_type. But are the values needed for the master node to cumpute it's calculus
         """
@@ -126,7 +127,7 @@ class User(object):
                 newParams = params
                 scoreI = float(self.__normalized_vector.iloc[params['i']])
                 scoreJ = float(self.__normalized_vector.iloc[params['j']])
-                newParams['value'] += scoreI*scoreJ
+                newParams['value'] += 0 if math.isnan(scoreI) or math.isnan(scoreJ) else scoreI*scoreJ
                 return self.__nextNode.executeSum(sum_type, newParams)
 
     def compute_normalized_vector(self):
@@ -135,8 +136,6 @@ class User(object):
         rates = self.__df.rename(columns={'rating_score':'normalized_score'}).normalized_score.apply(float)
         av = self.__averages.rename(columns={'av':'normalized_score'}).normalized_score.apply(float)
         self.__normalized_vector =  rates - av
-        print("user %d" % self.id)
-        print(self.__normalized_vector)
 
 
     def save_averages(self, averages):
@@ -147,10 +146,10 @@ class User(object):
 
     def predict_rating(self, element_index):
         """ Predicting a rating for a given element
-        
+
         Arguments:
             element_index {int} -- The ID of the element to predict
-        
+
         Returns:
             float -- The predicted score for the element
         """
@@ -169,12 +168,12 @@ class User(object):
             return 0.0
 
     def willILikeIt(self, element_index):
-        """ Does this user will like a song ? 
+        """ Does this user will like a song ?
                 We'll decide if we recomand it to him
-        
+
         Arguments:
             element_index {int} -- Index of the element to predict
-        
+
         Returns:
             bool -- Do we recommand the user this song ?
         """
