@@ -189,6 +189,10 @@ class User(object):
         self.__id = id
 
     @property
+    def average_rating(self):
+        return self.__average_rating
+
+    @property
     def nextNode(self):
         return self.__nextNode
 
