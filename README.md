@@ -55,7 +55,7 @@ This way, we achieved to compute the similarity matrix, without giving up any ro
 
 ## Project files
 The two versions of the recommendation are available in two files:
-- `main.py` for the centralized version of the recommendation
+- `centralized.py` for the centralized version of the recommendation
 - `decentralized.py` for the decentralized version of the recommendation
 
 ## Notebooks 
