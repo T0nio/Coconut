@@ -170,7 +170,7 @@ class User(object):
         if lower_sum != 0:
             return upper_sum / lower_sum
         else:
-            return 0.0
+            return - math.inf
 
     def willILikeIt(self, element_index):
         """ Does this user will like a song ?
