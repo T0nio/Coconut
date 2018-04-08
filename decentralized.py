@@ -1,3 +1,8 @@
+""" This file is the proof of concept of the decentralized algorithm.
+    You can just execute it (python decentralized.py), it'll do the simulation for you
+    You'll find a version with more comments in the associated notebook file (DecentralizedNotebook)
+"""
+
 import numpy as np
 import pandas as pd
 import os
@@ -22,32 +27,32 @@ user_dfs = []
 ### Generating the users_dataframes vector with all tracks and their ratings
 
 for user_collection in user_collections:
-  ndf = user_collection.to_dataframe()[['id', 'rating_score']]
-  user_matrix = track_list.merge(ndf, on='id', how='left').fillna(0)
-  user_dfs.append(user_matrix[['rating_score']])
+    ndf = user_collection.to_dataframe()[['id', 'rating_score']]
+    user_matrix = track_list.merge(ndf, on='id', how='left')
+    user_dfs.append(user_matrix[['rating_score']])
 """
 
 user_dfs = []
 for i in range(number_of_users):
-  tc = TrackCollection()
-  tc.load(os.path.join('data', 'users', str(i+1)+'.json'))
-  ndf = tc.to_dataframe()[['id', 'rating_score']]
-  user_matrix = track_list.merge(ndf, on='id', how='left').fillna(0)
-  user_dfs.append(user_matrix[['rating_score']])
+    tc = TrackCollection()
+    tc.load(os.path.join('data', 'users', str(i+1)+'.json'))
+    ndf = tc.to_dataframe()[['id', 'rating_score']]
+    user_matrix = track_list.merge(ndf, on='id', how='left')
+    user_dfs.append(user_matrix[['rating_score']])
 
 users = []
 i = 0
 for df in user_dfs:
-  users.append(User(i, df))
-  i += 1
-  
+    users.append(User(i, df))
+    i += 1
+    
 ### Generating the users
 for user in users:
-  if(user.id < number_of_users-1):
-    user.nextNode = users[user.id+1]
-  else:
-    user.nextNode = users[0]
-
+    if(user.id < number_of_users-1):
+        user.nextNode = users[user.id+1]
+    else:
+        user.nextNode = users[0]
+    
 ### Generating the server
 server = Server(users, track_list)
 
@@ -55,6 +60,16 @@ server = Server(users, track_list)
 server.run()
 
 ### Now all the users have the similarity matrix. So we can predict notes for users !
-user0ToPredict = [2,3,4,5,6,10,11,14,15,18]
-for i in user0ToPredict:
-    print(users[0].predict(i))
+
+
+userToPredict = []
+userToPredict.append([2,3,4,5,6,10,11,14,15,18])
+userToPredict.append([0,2,3,8,12,13,14,18,19])
+userToPredict.append([2,3,4,5,6,7,10,12,13,14,15,17,19])
+userToPredict.append([2,3,7,8,9,10,12,13,14,15,16])
+userToPredict.append([1,2,4,5,6,7,8,9,10])
+
+for i, uToPredict in enumerate(userToPredict):
+    for j in uToPredict:
+        if users[i].willILikeIt(j):
+            print("User %d will probably like song %i " % (i,j))
