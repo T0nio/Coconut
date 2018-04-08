@@ -37,7 +37,7 @@ class TrackCollection(object):
     def load(self, filepath):
         with open(filepath, 'r') as collection_file:
             line = collection_file.readline()
-            while line != '':  # EOF
+            while len(line) > 1:  # EOF
                 track = Track(json=line)
                 self[track.id] = track
                 line = collection_file.readline()
