@@ -7,7 +7,7 @@ from agent.server import Server
 from agent.user import User
 
 #### CONFIG 
-number_of_users = 10
+number_of_users = 5
 
 ### Loading the tracks data; and splitting them into number_of_users collections
 
@@ -27,6 +27,13 @@ for user_collection in user_collections:
   user_dfs.append(user_matrix[['rating_score']])
 """
 
+user_dfs = []
+for i in range(number_of_users):
+  tc = TrackCollection()
+  tc.load(os.path.join('data', 'users', str(i+1)+'.json'))
+  ndf = tc.to_dataframe()[['id', 'rating_score']]
+  user_matrix = track_list.merge(ndf, on='id', how='left').fillna(0)
+  user_dfs.append(user_matrix[['rating_score']])
 
 users = []
 i = 0
@@ -48,3 +55,6 @@ server = Server(users, track_list)
 server.run()
 
 ### Now all the users have the similarity matrix. So we can predict notes for users !
+user0ToPredict = [2,3,4,5,6,10,11,14,15,18]
+for i in user0ToPredict:
+    print(users[0].predict(i))

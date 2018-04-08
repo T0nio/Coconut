@@ -32,7 +32,7 @@ class Track(object):
         self.__id = entry['id']
         self.__title = entry['title']
         self.__playcount = entry['playcount']
-        self.__rating_score = entry['rating_score']
+        self.__rating_score = float(entry['rating_score'])
         self.__artist = entry['artist']
         self.__genre = entry['genre']
         self.__album = entry['album']
