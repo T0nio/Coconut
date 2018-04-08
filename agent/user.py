@@ -57,13 +57,16 @@ class User(object):
 
 
         init_val = random.randint(50000, 100000)
-        track = self.__normalized_vector.iloc[track_id]
+        track = float(self.__normalized_vector.iloc[track_id])
         r = self.__nextNode.executeSum('norma', {
             'origin': self.id,
-            'value': init_val + (0 if math.isnan(float(track)) else float(track)**2),
+            'value': init_val + (0 if math.isnan(track) else track**2),
+            'n': 0 if math.isnan(track) else 1,
             'i': track_id
         })
-        return math.sqrt(r-init_val)
+        if(r[1] == 0):
+            return math.nan
+        return math.sqrt(r[0]-init_val)
 
     def compute_scalar(self, i, j):
         """ Compute the scalar product between two tracks
@@ -107,7 +110,7 @@ class User(object):
             if sum_type == 'average':
                 return (params['value'], params['n'])
             elif sum_type == 'norma':
-                return (params['value'])
+                return (params['value'], params['n'])
             elif sum_type == 'scalar':
                 return (params['value'])
         else:
@@ -122,6 +125,7 @@ class User(object):
                 newParams = params
                 score = float(self.__normalized_vector.iloc[params['i']])
                 newParams['value'] += 0 if math.isnan(score) else score**2
+                newParams['n'] += 0 if math.isnan(score) else 1
                 return self.__nextNode.executeSum(sum_type, newParams)
             elif sum_type == 'scalar':
                 newParams = params
@@ -157,10 +161,11 @@ class User(object):
         upper_sum = 0
         lower_sum = 0
         for index, el in enumerate(self.__similarity_matrix.iloc[:, element_index]):
-            if el >= 0 and el <= 0.99:
+            if (not math.isnan(el)) and not math.isnan(self.__df.iloc[index]) and  el >= 0 and el <= 0.99:
                 upper_sum += el * float(self.__df.iloc[index])
                 lower_sum += el
 
+        #print("UpSum: %f, loSum: %f" % (upper_sum, lower_sum))
         ret = self.__averages.iloc[element_index]
         if lower_sum != 0:
             return upper_sum / lower_sum

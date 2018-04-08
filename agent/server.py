@@ -58,8 +58,10 @@ class Server(object):
         for indexI,trackI in self.track_list.iterrows():
             for indexJ,trackJ in self.track_list.iterrows():
                 user = random.choice(self.__users)
-                if norma.iloc[indexI].item() == 0. or norma.iloc[indexJ].item() == 0.:
+                if math.isnan(norma.iloc[indexI].item()) or math.isnan(norma.iloc[indexJ].item() ):
                     similarity_matrix[indexI, indexJ] = - math.inf
+                elif norma.iloc[indexI].item() == 0. or norma.iloc[indexJ].item() == 0.:
+                    similarity_matrix[indexI, indexJ] = 0
                 else:
                     similarity_matrix[indexI, indexJ] = user.compute_scalar(indexI, indexJ) / (norma.iloc[indexI] * norma.iloc[indexJ])
 

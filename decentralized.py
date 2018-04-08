@@ -20,38 +20,40 @@ track_collection = TrackCollection()
 track_collection.load(os.path.join('data', 'track_collection_test.json'))
 df_track_collection = track_collection.to_dataframe()
 track_list = df_track_collection[['id']]
-"""
-user_collections = splitter(track_collection, number_of_users, 0.3)
-user_dfs = []
+
+#user_collections = splitter(track_collection, number_of_users, 0.3)
+#user_dfs = []
 
 ### Generating the users_dataframes vector with all tracks and their ratings
 
-for user_collection in user_collections:
-    ndf = user_collection.to_dataframe()[['id', 'rating_score']]
-    user_matrix = track_list.merge(ndf, on='id', how='left')
-    user_dfs.append(user_matrix[['rating_score']])
-"""
+#for user_collection in user_collections:
+#  ndf = user_collection.to_dataframe()[['id', 'rating_score']]
+#  user_matrix = track_list.merge(ndf, on='id', how='left').fillna(0)
+#  user_dfs.append(user_matrix[['rating_score']])
+
 
 user_dfs = []
 for i in range(number_of_users):
-    tc = TrackCollection()
-    tc.load(os.path.join('data', 'users', str(i+1)+'.json'))
-    ndf = tc.to_dataframe()[['id', 'rating_score']]
-    user_matrix = track_list.merge(ndf, on='id', how='left')
-    user_dfs.append(user_matrix[['rating_score']])
+  tc = TrackCollection()
+  tc.load(os.path.join('data', 'users', str(i+1)+'.json'))
+  ndf = tc.to_dataframe()[['id', 'rating_score']]
+  user_matrix = track_list.merge(ndf, on='id', how='left')
+  user_dfs.append(user_matrix[['rating_score']])
 
+### Generating the user
 users = []
 i = 0
 for df in user_dfs:
-    users.append(User(i, df))
-    i += 1
-    
-### Generating the users
+  users.append(User(i, df))
+  i += 1
+
+### Setting the user loop: each user have to know which one is the next, in order to compute the decentralized calculuses
 for user in users:
-    if(user.id < number_of_users-1):
-        user.nextNode = users[user.id+1]
-    else:
-        user.nextNode = users[0]
+  if(user.id < number_of_users-1):
+    user.nextNode = users[user.id+1]
+  else:
+    user.nextNode = users[0]
+
     
 ### Generating the server
 server = Server(users, track_list)
