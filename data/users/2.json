@@ -1,12 +1,11 @@
-
-{"id": 1, "title": "Song - 41", "rating_score": 0.6,"artist": ""}
-{"id": 4, "title": "Song - 65", "rating_score": 0.2,"artist": ""}
-{"id": 5, "title": "Song - 88", "rating_score": 0.7,"artist": ""}
-{"id": 6, "title": "Song - 76", "rating_score": 0.8,"artist": ""}
-{"id": 7, "title": "Song - 23", "rating_score": 0.2,"artist": ""}
-{"id": 9, "title": "Song - 40", "rating_score": 0.3,"artist": ""}
-{"id": 10, "title": "Song - 01", "rating_score": 0.9,"artist": ""}
-{"id": 11, "title": "Song - 91", "rating_score": 0.4,"artist": ""}
-{"id": 15, "title": "Song - 82", "rating_score": 0.8,"artist": ""}
-{"id": 16, "title": "Song - 55", "rating_score": 0.1,"artist": ""}
-{"id": 17, "title": "Song - 58", "rating_score": 0.9,"artist": ""}
+{"id": 1, "title": "Song - 41", "rating_score": 0.6,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 4, "title": "Song - 65", "rating_score": 0.2,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 5, "title": "Song - 88", "rating_score": 0.65,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 6, "title": "Song - 76", "rating_score": 0.8,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 7, "title": "Song - 23", "rating_score": 0.2,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 9, "title": "Song - 40", "rating_score": 0.3,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 10, "title": "Song - 01", "rating_score": 0.9,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 11, "title": "Song - 91", "rating_score": 0.8,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 15, "title": "Song - 82", "rating_score": 0.8,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 16, "title": "Song - 55", "rating_score": 0.1,"artist": "", "year":  0, "album": "none", "genre": "none", "playcount": 0}
+{"id": 17, "title": "Song - 58", "rating_score": 0.9,"artist": "", "year": 0, "album": "none", "genre": "none", "playcount": 0}
