@@ -4,7 +4,7 @@ DataMining Course project @CentraleSupelec.
 
 This projects aims to do music recommendation based one similar people tastes without any central server knowing the tastes or personnal data of each individual.
 
-We created a centralized version of the algorithm we want to use, to be able to compare it with the decentralized one after. 
+We created a centralized version of the algorithm we want to use, to be able to compare it with the decentralized one after.
 
 Our recommendation approache is to do element-element similarity based colaborative recommendation. This principle is based on the computation of a similarity matrix between all elements of the common library, to predict the rating of an unknown element.
 
@@ -42,8 +42,8 @@ To be able to compute the similarity matrix, the server will need to know:
 - The scalar product between two tracks
 - The norma of each tracks
 
-All these data are basically sums of elements for each user (sum of score, square score, or multiplication of scores). But we don't want any user to be able to know the score of another user. 
-To achieve that we'll use a trick ! (yeah!) : 
+All these data are basically sums of elements for each user (sum of score, square score, or multiplication of scores). But we don't want any user to be able to know the score of another user.
+To achieve that we'll use a trick ! (yeah!) :
 - The first user of the chain will generate a huge number (thousand times bigger than the potential result), and save it
 - He'll add it's own part of the calculus (score, square score, multiplication of scores) to this number
 - He'll give that result to the next user, that will add it's own part of the calculus to it too
@@ -51,14 +51,21 @@ To achieve that we'll use a trick ! (yeah!) :
 - When the sum return to the first user (we created a closed chain, remember ?), he'll substract the huge number to the sum. And the he'll have the sum !
 - After that he'll just add the last operation needed (divide by the number of users or square root for example), and give back the result to the server.
 
-This way, we achieved to compute the similarity matrix, without giving up any row data ! 
+This way, we achieved to compute the similarity matrix, without giving up any row data !
 
 ## Project files
 The two versions of the recommendation are available in two files:
 - `centralized.py` for the centralized version of the recommendation
 - `decentralized.py` for the decentralized version of the recommendation
+Other files used by the project :
+- `data` : folder containing the music collections of different users
+- `agent/server.py` : Server model that will ensure all users are chained and can compute their own music prediction according to the track similarity matrix.
+- `agent/user.py` : Model of a user that can compute his own predictions, and call the next users in the loop do ask them to make the relevant computations.
+- `model/track.py` : Model of a track used when we scrapp the collection and to build the track / user matrix.
+- `model/track_collection.py` : Model of the librabry of tracks when we scrapp the collection.
+- `utils/collection_splitter.py` : Utils functions that help splitting a collection into many smaller collections (in order to simulate different users). We later realized that it is useless since all the ratings comes from the same user, there will be no recommendations of new tracks. So we made fake collections to validate our system.
 
-## Notebooks 
-You'll find a notebook version of the two concepts. These versions will help you to understand how the system works. 
+## Notebooks
+You'll find a notebook version of the two concepts. These versions will help you to understand how the system works.
 - `DecentralizedNotebook.ipynb` for the decentralized version
 - `CentralizedNotebook.ipynb` for the centralized one
